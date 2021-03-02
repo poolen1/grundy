@@ -36,14 +36,22 @@ class AOStar:
             if not node.successors:
                 parent = node.parent
                 while parent:
-                    print("node state: ", node.state.open + node.state.closed, node.cost)
-                    print("parent: ", parent.state.open + parent.state.closed, parent.cost)
-                    parent = parent.parent
+                    branch = False
+
+                    parent.cost += node.cost + 1
+
                     if len(parent.successors) > 1:
+                        print("parent.succ: ", parent.successors)
                         for i in parent.successors:
+                            print("i cost: ", i.cost)
                             if i.cost == 0:
                                 parent = None
+                                branch = True
+                    if branch is True:
+                        continue
+                        
                     node = parent
+                    parent = parent.parent
 
     def print_tree(self):
         for node in self.game_state_tree:
