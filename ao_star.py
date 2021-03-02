@@ -1,4 +1,5 @@
-from bfs import Traverse_Tree
+from bfs import TraverseTree
+
 
 class AOStarNode:
     def __init__(self, parents=None):
@@ -17,7 +18,7 @@ class AOStarNode:
         self.__futile = True
 
     def cost(self, cost):
-        self.cost = cost
+        self.__f = cost
 
 class AOStar:
     def __init__(self, game):
@@ -27,5 +28,23 @@ class AOStar:
         self.game_state_tree = self.expand_tree()
 
     def expand_tree(self):
-        states_bfs = Traverse_Tree(self.game)
-        return states_bfs.search()
+        return TraverseTree(self.game).search()
+
+    # sum cost
+    def calculate_costs(self):
+        for node in self.game_state_tree:
+            if not node.successors:
+                parent = node.parent
+                while parent:
+                    print("node state: ", node.state.open + node.state.closed, node.cost)
+                    print("parent: ", parent.state.open + parent.state.closed, parent.cost)
+                    parent = parent.parent
+                    if len(parent.successors) > 1:
+                        for i in parent.successors:
+                            if i.cost == 0:
+                                parent = None
+                    node = parent
+
+    def print_tree(self):
+        for node in self.game_state_tree:
+            print("state, cost: ", node.state.open + node.state.closed, node.cost)
