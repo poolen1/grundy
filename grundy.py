@@ -3,19 +3,20 @@
 class Grundy:
     def __init__(self, start_stack):
         self.start_stack = start_stack
-        self.open = [].append(start_stack)
+        self.open = [start_stack]
         self.closed = []
         self.turn = 1  # 1 == + and -1 == -
 
     # Game move: split chosen stack into two parts
     def split(self, stack, split_0, split_1):
 
-        if split_0 % 2 == 0 and split_1 % 2 == 0:
-            print("Can't split into two even stacks")
+        if split_0 == split_1:
             return
 
+        # print("open list: ", self.open)
+        # print("closed list: ", self.closed)
         index = self.open.index(stack)
-        stack = self.open(index)
+        stack = self.open[index]
 
         self.open.remove(stack)
 
